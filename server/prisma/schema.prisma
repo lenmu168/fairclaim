@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum AttemptResult {
+  SUCCESS
+  DUPLICATE_BLOCKED
+  NO_SGT
+  INVALID_SIGNATURE
+  EXPIRED_NONCE
+  CAMPAIGN_CLOSED
+  ERROR
+}
+
+model Campaign {
+  id           String @id @default(cuid())
+  slug         String @unique
+  name         String
+  description  String
+  rewardName   String
+  rewardAmount Int
+  status       CampaignStatus @default(DRAFT)
+  startsAt     DateTime @db.Timestamptz(3)
+  endsAt       DateTime @db.Timestamptz(3)
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+  claims       Claim[]
+  attempts     ClaimAttempt[]
+}
+
+model Claim {
+  id            String @id @default(cuid())
+  campaignId    String
+  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  walletAddress String
+  sgtMint       String
+  claimedAt     DateTime @default(now()) @db.Timestamptz(3)
+  isDevBypass   Boolean @default(false)
+  @@unique([campaignId, sgtMint])
+}
+
+model SiwsNonce {
+  id         String @id @default(cuid())
+  nonce      String @unique
+  payload    Json
+  purpose    String
+  campaignId String?
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  expiresAt  DateTime @db.Timestamptz(3)
+  usedAt     DateTime? @db.Timestamptz(3)
+  @@index([expiresAt])
+}
+
+model ClaimAttempt {
+  id            String @id @default(cuid())
+  campaignId    String
+  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  walletAddress String
+  sgtMint       String?
+  result        AttemptResult
+  reason        String
+  createdAt     DateTime @default(now()) @db.Timestamptz(3)
+  isDevBypass   Boolean @default(false)
+  @@index([campaignId, createdAt])
+}

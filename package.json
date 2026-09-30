@@ -1,0 +1,23 @@
+{
+  "name": "fairclaim",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "typecheck": "npm --prefix server run typecheck && npm --prefix mobile run typecheck",
+    "test": "npm run security:wallet-funds && npm run test:mobile-siws && npm --prefix server test",
+    "test:mobile-siws": "node --no-warnings mobile/scripts/test-siws-diagnostic.mjs",
+    "security:wallet-funds": "node scripts/wallet-fund-safety.mjs",
+    "security:wallet-funds:self-test": "node scripts/wallet-fund-safety.mjs --self-test",
+    "server": "npm --prefix server run dev",
+    "mobile": "npm --prefix mobile run dev",
+    "db:migrate": "npm --prefix server run db:migrate",
+    "db:seed": "npm --prefix server run db:seed",
+    "db:seed:production": "npm --prefix server run db:seed:production",
+    "preflight:seeker": "npm --prefix server run preflight:seeker",
+    "seeker:configure": "npm --prefix server run seeker:configure --"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

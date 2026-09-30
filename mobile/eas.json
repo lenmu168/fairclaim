@@ -1,0 +1,21 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "environment": "development",
+      "env": {
+        "ALLOW_LOCAL_HTTP": "true",
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.4:3000",
+        "EXPO_PUBLIC_SIWS_DOMAIN": "192.168.1.4:3000",
+        "EXPO_PUBLIC_SIWS_URI": "http://192.168.1.4:3000"
+      },
+      "android": { "buildType": "apk" }
+    },
+    "preview": { "distribution": "internal", "android": { "buildType": "apk" } },
+    "production": {
+      "environment": "production",
+      "android": { "buildType": "apk" }
+    }
+  }
+}

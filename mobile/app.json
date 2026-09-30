@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#05070B",
+        "foregroundImage": "./assets/images/fairclaim-foreground.png",
+        "monochromeImage": "./assets/images/fairclaim-monochrome.png"
+      },
+      "package": "app.fairclaim.mobile",
+      "predictiveBackGestureEnabled": false
+    },
+    "experiments": {
+      "reactCompiler": true,
+      "typedRoutes": true
+    },
+    "icon": "./assets/images/fairclaim.png",
+    "name": "FairClaim",
+    "orientation": "portrait",
+    "plugins": [
+      [
+        "expo-dev-client",
+        {
+          "showMenuAtLaunch": false,
+          "skipOnboarding": true
+        }
+      ],
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "android": {
+            "image": "./assets/images/fairclaim.png",
+            "imageWidth": 140
+          },
+          "backgroundColor": "#05070B"
+        }
+      ],
+      "expo-status-bar"
+    ],
+    "scheme": "fairclaim",
+    "slug": "fairclaim",
+    "userInterfaceStyle": "dark",
+    "web": {
+      "favicon": "./assets/images/fairclaim.png",
+      "output": "static"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dc7a69b7-106c-4dd3-86ec-b42df6ff91be"
+      }
+    },
+    "owner": "lenmu168"
+  }
+}
