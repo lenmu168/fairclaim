@@ -133,6 +133,26 @@ Changing wallets does not create another claim right for the same SGT. The serve
 
 See [Security Design](docs/security.md) and [Wallet Fund Safety](docs/wallet-fund-safety.md) for the implementation boundaries and threat model.
 
+## Hackathon Audit Clarification
+
+The CLOCK IN advisory security audit was run against commit `59c8c26`. It should be read together with the runtime boundaries documented in this repository.
+
+### Production transport
+
+The audit flagged `http://10.0.2.2:3000` in `mobile/src/lib/api.ts` as a possible hardcoded HTTP endpoint. That address is an Android-emulator development fallback used only when `__DEV__` is true.
+
+Production builds do not fall back to that endpoint. In non-development builds, FairClaim requires `EXPO_PUBLIC_API_URL` to be configured and fails closed unless the URL begins with `https://`.
+
+The production FairClaim API is:
+
+**<https://fairclaim-api-production.up.railway.app>**
+
+### Dependency findings
+
+The advisory audit also reported vulnerabilities in transitive dependencies present in the committed lockfiles, including packages pulled through Prisma and the Expo / React Native toolchain. These findings are tracked as dependency-supply-chain issues and should not be interpreted as evidence that FairClaim's production claim flow uses MySQL, constructs wallet transactions, or sends assets.
+
+This note provides scope and runtime context only. It does **not** claim that the reported dependency advisories have been remediated. Dependency updates should be validated against the production Android build and the existing safety/test suite before release.
+
 ## Builder Dashboard
 
 The in-app Builder view presents campaign operations without exposing server credentials:
